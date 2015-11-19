@@ -13,7 +13,7 @@ router.get('/', function(req, res) {
 	res.render('index', {showGames : false});
 })
 
-router.get('/:steamID', function(req, res) {
+router.get('/viewGames/:steamID', function(req, res) {
 	var id = req.params.steamID;
 	if(isNaN(id)) {
 		res.send(404);
@@ -50,7 +50,7 @@ router.get('/addSteamID/:steamID', function(req, res) {
 				});
 
 				Game.create(gamesInSchemaForm).then(function() {
-					res.status(302).redirect('/'+id);
+					res.status(302).redirect('/viewGames/'+id);
 				})
 
 
@@ -64,10 +64,16 @@ router.get('/addSteamID/:steamID', function(req, res) {
 	}
 })
 
-router.delete('/delete/:steamID', function(req, res, next) {
-	Game.remove({userID : req.params.steamID})
-		.then(function (success) {
-			res.redirect('/'+req.params.steamID);
+router.get('/deleteUser', function(req, res) {
+	res.render('deletePage', {});
+})
+
+router.get('/delete/', function(req, res, next) {
+	var query = require('url').parse(req.url,true).query;
+	var steamID = query.steamID;
+	Game.remove({userID : steamID})
+		.then(function () {
+			res.redirect('/viewGames/'+steamID);
 		})
 		.then(null, function (err) {
 			console.error(err);
