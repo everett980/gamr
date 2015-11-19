@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<HTML>
+   <HEAD>
+      <TITLE>
+         Game List 
+      </TITLE>
+   </HEAD>
+<BODY>
+   <H1>Welcome</H1>
+   <P>Here is a list of your games:</P> 
+
+   {% if showGames %}
+   <div>
+   	<ul id="tweet-list">
+        {% for game in games %}
+          <li class="tweetbox">
+              <br>
+              <img src='{{game.imgUrlGenerator}}'>
+              <span class="content">{{game.title}}</span>
+              <br>
+          </li>
+        {% endfor %}
+        </ul>
+   </div>
+   {% endif %}
+   {% if games.length < 1 %}
+   <p>Looks like you don't have any games!</p>
+   {% endif %}
+</BODY>
+</HTML>
